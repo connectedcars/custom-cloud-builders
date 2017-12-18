@@ -40,6 +40,6 @@ images:
 - 'gcr.io/$PROJECT_ID/npm-ssh:current'
 
 secrets:
-- kmsKeyName: projects/$PROJECT_ID/locations/global/keyRings/cloudbuilder/cryptoKeys/github-deploykey
+- kmsKeyName: projects/connectedcars-staging/locations/global/keyRings/cloudbuilder/cryptoKeys/github-deploykey
   secretEnv:
     SSH_KEY_PASSWORD: CiQAiXqwBoiUjzxTYXvz6O/DwrCkBmoPlyXWd5zewXRkdzRdaeQSUgCbUdOQXeBNBpAjbzDVH4t4KP+vpFEEqSaRgfB+ZVCNswA1PN93ePxwLNEGoywaLixJKRgmLiSU/11iXxc9vYYAlmIwutJ/kNBidSqoto+Pd/A=
