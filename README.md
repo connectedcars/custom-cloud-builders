@@ -41,13 +41,24 @@ Create the deploy key and add public key to github private repo:
 ssh-keygen -f id_rsa
 ```
 
-Encrypt private key and base64 so it can be added as secureEnv:
+Encrypt private key:
 
 ``` bash
 gcloud kms encrypt --plaintext-file=id_rsa --ciphertext-file=id_rsa.enc  --location=global --keyring=cloudbuilder --key=github-deploykey
 ```
 
+Encrypt private key and base64 so it can be added as secureEnv:
+
+``` bash
+gcloud kms encrypt --plaintext-file=- --ciphertext-file=- --location=global --keyring=cloudbuilder --key=github-deploykey | base64
+```
+
 ## Build images
+
+``` bash
+docker build -t npm-deploykey:latest ./ && docker run 'SSH_PASSWORD=mypassword' --rm -it npm-deploykey:latest
+```
+
 
 ``` bash
 gcloud container builds submit --config=cloudbuild.yaml .

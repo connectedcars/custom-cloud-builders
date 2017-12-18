@@ -4,8 +4,10 @@ steps:
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/deploykey:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/deploykey:latest', './deploykey']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/npm-ssh:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/npm-ssh:current', './npm-ssh']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/npm-deploykey:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/npm-deploykey:current', './npm-deploykey']
   
-  # Test the example
+  # Test the deploykey + npm-ssh
   - name: 'gcr.io/$PROJECT_ID/deploykey:latest'
     dir: './examples/hello-world'
     env: ['KMS_KEY_NAME=$PROJECT_ID/global/cloudbuilder/github-deploykey']
@@ -21,8 +23,23 @@ steps:
   - name: 'gcr.io/$PROJECT_ID/npm-ssh:current'
     args: ['test']
     dir: './examples/hello-world'
+
+  # Test the npm-deploykey
+  - name: 'gcr.io/$PROJECT_ID/npm-deploykey:current'
+    secretEnv: ['SSH_KEY_PASSWORD']
+    args: ['install']
+    dir: './examples/hello-world'
+  - name: 'gcr.io/$PROJECT_ID/npm-ssh:current'
+    args: ['test']
+    dir: './examples/hello-world'
+  
 images: 
 - 'gcr.io/$PROJECT_ID/deploykey:$COMMIT_SHA'
 - 'gcr.io/$PROJECT_ID/deploykey:latest'
 - 'gcr.io/$PROJECT_ID/npm-ssh:$COMMIT_SHA'
 - 'gcr.io/$PROJECT_ID/npm-ssh:current'
+
+secrets:
+- kmsKeyName: projects/$PROJECT_ID/locations/global/keyRings/cloudbuilder/cryptoKeys/github-deploykey
+  secretEnv:
+    SSH_KEY_PASSWORD: CiQAiXqwBoiUjzxTYXvz6O/DwrCkBmoPlyXWd5zewXRkdzRdaeQSUgCbUdOQXeBNBpAjbzDVH4t4KP+vpFEEqSaRgfB+ZVCNswA1PN93ePxwLNEGoywaLixJKRgmLiSU/11iXxc9vYYAlmIwutJ/kNBidSqoto+Pd/A=
