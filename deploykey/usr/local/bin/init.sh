@@ -15,4 +15,4 @@ KEY=$(echo $KMS_KEY_NAME | cut -f4 -d'/')
 echo gcloud --project $PROJECT kms decrypt --location=$LOCATION --keyring=$KEYRING --key=$KEY --ciphertext-file=/root/.ssh/id_rsa.enc --plaintext-file=/root/.ssh/id_rsa
 
 gcloud --project $PROJECT kms decrypt --location=$LOCATION --keyring=$KEYRING --key=$KEY --ciphertext-file=/root/.ssh/id_rsa.enc --plaintext-file=/root/.ssh/id_rsa
-chmod 640 /root/.ssh/id_rsa
+chmod 600 /root/.ssh/id_rsa
