@@ -24,6 +24,11 @@ steps:
     args: ['test']
     dir: './examples/hello-world'
 
+  # Clean up
+  - name: 'ubuntu'
+    args: ['rm', '-rf' 'node_modules']
+    dir: './examples/hello-world'
+
   # Test the npm-deploykey
   - name: 'gcr.io/$PROJECT_ID/npm-deploykey:current'
     secretEnv: ['SSH_KEY_PASSWORD']
@@ -38,6 +43,8 @@ images:
 - 'gcr.io/$PROJECT_ID/deploykey:latest'
 - 'gcr.io/$PROJECT_ID/npm-ssh:$COMMIT_SHA'
 - 'gcr.io/$PROJECT_ID/npm-ssh:current'
+- 'gcr.io/$PROJECT_ID/npm-deploykey:$COMMIT_SHA'
+- 'gcr.io/$PROJECT_ID/npm-deploykey:current'
 
 secrets:
 - kmsKeyName: projects/connectedcars-staging/locations/global/keyRings/cloudbuilder/cryptoKeys/github-deploykey
