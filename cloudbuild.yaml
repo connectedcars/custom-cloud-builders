@@ -47,4 +47,4 @@ images:
 secrets:
 - kmsKeyName: projects/connectedcars-staging/locations/global/keyRings/cloudbuilder/cryptoKeys/github-deploykey
   secretEnv:
-    SSH_KEY_PASSWORD: CiQAiXqwBoiUjzxTYXvz6O/DwrCkBmoPlyXWd5zewXRkdzRdaeQSUgCbUdOQXeBNBpAjbzDVH4t4KP+vpFEEqSaRgfB+ZVCNswA1PN93ePxwLNEGoywaLixJKRgmLiSU/11iXxc9vYYAlmIwutJ/kNBidSqoto+Pd/A=
+    SSH_KEY_PASSWORD: CiQAiXqwBmhqi+Od146HAG9E3cNiaCEzqkBl6X9hTatGe8B6b3kSUgCbUdOQElBUoff8hJBS5ouLnn93D26YGUvZT6Hcxcx+5JtO6FgYhoWg4aMFIGu98E1qcRUMTeoybPD4NyIG6MEL1kf8/qrtE0652YUiVjVAZ1c=
