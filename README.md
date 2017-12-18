@@ -2,6 +2,10 @@
 
 Custom container builders for Google cloud builder
 
+* deploykey : Container to decrypt ssh deploy key and put them on a volume
+* npm-ssh : NPM build container with ssh tools installed
+* npm-deploykey: Container that has a ssh deploy key loaded into an ssh-agent process running in the background so the npm build can use it
+
 ## Usage
 
 ### Options 1
