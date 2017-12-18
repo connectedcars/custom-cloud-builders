@@ -7,20 +7,20 @@ steps:
   
   # Test the example
   - name: 'gcr.io/$PROJECT_ID/deploykey:latest'
-    dir: './node-private-hello-world'
+    dir: './examples/hello-world'
     env: ['KMS_KEY_NAME=$PROJECT_ID/global/cloudbuilder/github-deploykey']
     volumes:
       - name: 'deploykey'
         path: /root/.ssh
   - name: 'gcr.io/$PROJECT_ID/npm-ssh:current'
     args: ['install']
-    dir: './node-private-hello-world'
+    dir: './examples/hello-world'
     volumes:
       - name: 'deploykey'
         path: /root/.ssh
   - name: 'gcr.io/$PROJECT_ID/npm-ssh:current'
     args: ['test']
-    dir: './node-private-hello-world'
+    dir: './examples/hello-world'
 images: 
 - 'gcr.io/$PROJECT_ID/deploykey:$COMMIT_SHA'
 - 'gcr.io/$PROJECT_ID/npm-ssh:latest'
