@@ -1,5 +1,5 @@
 const privateModule = require('private-module')
-const should = require('chai').should();
+const expect = require('chai').expect;
 
 describe('test.js', () => {
   it('say hello world', (done) => {
