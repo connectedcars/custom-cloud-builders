@@ -11,16 +11,16 @@ This options lets cloud builder decrypt a password for the ssh deploy key and th
 ``` yaml
 steps:
   # Install the dependencies with deploy key
-  - name: 'gcr.io/$PROJECT_ID/npm-deploykey:current'
+  - name: 'gcr.io/$PROJECT_ID/npm-deploykey-<KEY NAME>:current'
     args: ['install']
     secretEnv: ['SSH_KEY_PASSWORD']
   # Do normal build steps
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/hello-world:latest', '.']
 secrets:
-- kmsKeyName: projects/connectedcars-staging/locations/global/keyRings/cloudbuilder/cryptoKeys/github-deploykey
+- kmsKeyName: projects/<PROJECT NAME>/locations/global/keyRings/cloudbuilder/cryptoKeys/github-deploykey
   secretEnv:
-    SSH_KEY_PASSWORD: CiQAiXqwBmhqi+Od146HAG9E3cNiaCEzqkBl6X9hTatGe8B6b3kSUgCbUdOQElBUoff8hJBS5ouLnn93D26YGUvZT6Hcxcx+5JtO6FgYhoWg4aMFIGu98E1qcRUMTeoybPD4NyIG6MEL1kf8/qrtE0652YUiVjVAZ1c=
+    SSH_KEY_PASSWORD: <BASE64 ENCODED ENCRYPTED PASSWORD>
 ```
 
 ### Option 2
