@@ -7,7 +7,7 @@ if [[ ! -n "$KMS_KEY_NAME" ]]; then
     exit 255
 fi
 
-if [ ! -f "/root/.ssh/id_rsa" ]; then
+if [ ! -f "/root/.ssh/id_rsa.enc" ]; then
     echo "Missing /root/.ssh/id_rsa.enc"
     exit 255
 fi
