@@ -7,6 +7,11 @@ if [[ ! -n "$KMS_KEY_NAME" ]]; then
     exit 255
 fi
 
+if [ ! -f "/root/.ssh/id_rsa" ]; then
+    echo "Missing /root/.ssh/id_rsa.enc"
+    exit 255
+fi
+
 PROJECT=$(echo $KMS_KEY_NAME | cut -f1 -d'/')
 LOCATION=$(echo $KMS_KEY_NAME | cut -f2 -d'/')
 KEYRING=$(echo $KMS_KEY_NAME | cut -f3 -d'/')

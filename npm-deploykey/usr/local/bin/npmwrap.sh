@@ -7,6 +7,11 @@ if [[ ! -n "$SSH_KEY_PASSWORD" ]]; then
     exit 255
 fi
 
+if [ ! -f "/root/.ssh/id_rsa" ]; then
+    echo "Missing /root/.ssh/id_rsa"
+    exit 255
+fi
+
 # Start ssh-agent and set a trap to kill it when we exit the script
 eval "$(ssh-agent)" > /dev/null
 trap 'ssh-agent -k > /dev/null' EXIT
