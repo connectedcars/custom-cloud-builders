@@ -58,35 +58,45 @@ gcloud kms keyrings create cloudbuilder --location=global
 gcloud kms keys create github-deploykey --location=global --keyring=cloudbuilder --purpose=encryption
 ```
 
-Create the deploy key and add public key to github private repo:
-
-``` bash
-ssh-keygen -f id_rsa # Option 1 requires that a password is set and Option 2 that no password is set
-```
-
 ### Option 1 (ssh-agent in npm container)
 
 Add the key to new container that inherits from npm-deploykey:
 
+Dockerfile:
+
 ``` docker
-FROM gcr.io/cloud-builders/npm-deploykey:current
+FROM gcr.io/<PROJECT>/npm-deploykey:current
 
 COPY root /root
 RUN chmod 600 /root/.ssh/id_rsa
 ```
 
-Encrypt private key and base64 so it can be added as secureEnv:
+Create the deploy key and add public key to github private repo:
 
 ``` bash
-gcloud kms encrypt --plaintext-file=- --ciphertext-file=- --location=global --keyring=cloudbuilder --key=github-deploykey | base64
+mkdir -p root/.ssh
+ssh-keygen -f root/.ssh/id_rsa # Set long random password
 ```
+
+Encrypt password and base64 it so it can be added to secureEnv:
 
 ### Option 2 (shared id_rsa key with volume mounts)
 
-Encrypt private key:
+Add the key to new container that inherits from deploykey:
+
+Dockerfile:
+
+``` docker
+FROM gcr.io/<PROJECT>/npm-deploykey:current
+
+COPY root /root
+```
 
 ``` bash
-gcloud kms encrypt --plaintext-file=id_rsa --ciphertext-file=id_rsa.enc  --location=global --keyring=cloudbuilder --key=github-deploykey
+mkdir -p root/.ssh
+ssh-keygen -f root/.ssh/id_rsa # Don't set any password
+gcloud kms encrypt --plaintext-file=root/.ssh/id_rsa --ciphertext-file=root/.ssh/id_rsa.enc  --location=global --keyring=cloudbuilder --key=github-deploykey
+rm -f root/.ssh/id_rsa
 ```
 
 ## Build images for testing
