@@ -4,7 +4,9 @@ Custom container builders for Google cloud builder
 
 ## Usage
 
-Options 1:
+### Options 1
+
+This options lets cloud builder decrypt a password for the ssh deploy key and then injects the key it into a ssh-agent running in the same container as the npm command.
 
 ``` yaml
 steps:
@@ -21,7 +23,9 @@ secrets:
     SSH_KEY_PASSWORD: CiQAiXqwBmhqi+Od146HAG9E3cNiaCEzqkBl6X9hTatGe8B6b3kSUgCbUdOQElBUoff8hJBS5ouLnn93D26YGUvZT6Hcxcx+5JtO6FgYhoWg4aMFIGu98E1qcRUMTeoybPD4NyIG6MEL1kf8/qrtE0652YUiVjVAZ1c=
 ```
 
-Option 2:
+### Option 2
+
+This options uses the "gcloud kms decrypt" tool and puts the decrypted key in a volume, this is then mounted in all containers that need the key.
 
 ``` yaml
 steps:
@@ -62,8 +66,6 @@ ssh-keygen -f id_rsa # Option 1 requires that a password is set and Option 2 tha
 
 ### Option 1 (ssh-agent in npm container)
 
-This options lets cloud builder decrypt a password for the ssh deploy key and then injects it into a ssh-agent running in the same container as npm command.
-
 Add the key to new container that inherits from npm-deploykey:
 
 ``` docker
@@ -80,8 +82,6 @@ gcloud kms encrypt --plaintext-file=- --ciphertext-file=- --location=global --ke
 ```
 
 ### Option 2 (shared id_rsa key with volume mounts)
-
-This options uses the gcloud kms decrypt tool and puts the key in volume(/root/.ssh), this is then mounted in all containers that need the key.
 
 Encrypt private key:
 
