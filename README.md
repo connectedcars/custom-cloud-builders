@@ -4,6 +4,27 @@ Custom container builders for google cloud builder
 
 ## Usage
 
+``` yaml
+steps:
+  # Install the deploy in /root/.ssh
+  - name: 'gcr.io/$PROJECT_ID/deploykey:latest'
+    env: ['KMS_KEY_NAME=$PROJECT_ID/global/cloudbuilder/github-deploykey']
+    volumes:
+      - name: 'deploykey'
+        path: /root/.ssh
+  # Install the dependencies with deploy key
+  - name: 'gcr.io/$PROJECT_ID/npm-ssh:current'
+    args: ['install']
+    volumes:
+      - name: 'deploykey'
+        path: /root/.ssh
+  # Do normal build steps
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/hello-world:latest', '.']
+```
+
+## Setup
+
 Create KSM encryption key for encrypting the deploy key:
 
 ``` bash
