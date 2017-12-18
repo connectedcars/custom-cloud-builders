@@ -23,12 +23,10 @@ steps:
   - name: 'gcr.io/$PROJECT_ID/npm-ssh:current'
     args: ['test']
     dir: './examples/hello-world'
-
   # Clean up
   - name: 'ubuntu'
-    args: ['rm', '-rf' 'node_modules']
+    args: ['rm', '-rf', 'node_modules']
     dir: './examples/hello-world'
-
   # Test the npm-deploykey
   - name: 'gcr.io/$PROJECT_ID/npm-deploykey:current'
     secretEnv: ['SSH_KEY_PASSWORD']
