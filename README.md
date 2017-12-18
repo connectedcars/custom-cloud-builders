@@ -48,7 +48,7 @@ steps:
 
 ## Setup
 
-Create KSM encryption key for encrypting the deploy key:
+Create KSM encryption key for encrypting the deploy key or key password:
 
 ``` bash
 gcloud kms keyrings create cloudbuilder --location=global
@@ -102,7 +102,7 @@ rm -f root/.ssh/id_rsa
 ## Build images for testing
 
 ``` bash
-docker build -t npm-deploykey:latest ./ && docker run 'SSH_PASSWORD=mypassword' --rm -it npm-deploykey:latest
+docker build -t npm-deploykey:latest ./ && docker run -e 'SSH_PASSWORD=mypassword' --rm -it npm-deploykey:latest
 ```
 
 ``` bash
