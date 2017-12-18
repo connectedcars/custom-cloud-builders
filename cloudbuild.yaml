@@ -1,0 +1,26 @@
+steps:
+  # Build the containes
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/deploykey:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/deploykey:latest', './deploykey']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/npm-ssh:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/npm-ssh:current', './npm-ssh']
+  
+  # Test the example
+  - name: 'gcr.io/$PROJECT_ID/deploykey:latest'
+    dir: './node-private-hello-world'
+    env: ['KMS_KEY_NAME=$PROJECT_ID/global/cloudbuilder/github-deploykey']
+    volumes:
+      - name: 'deploykey'
+        path: /root/.ssh
+  - name: 'gcr.io/$PROJECT_ID/npm-ssh:current'
+    args: ['install']
+    dir: './node-private-hello-world'
+    volumes:
+      - name: 'deploykey'
+        path: /root/.ssh
+  - name: 'gcr.io/$PROJECT_ID/npm-ssh:current'
+    args: ['test']
+    dir: './node-private-hello-world'
+images: 
+- 'gcr.io/$PROJECT_ID/deploykey:$COMMIT_SHA'
+- 'gcr.io/$PROJECT_ID/npm-ssh:latest'
