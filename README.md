@@ -84,6 +84,10 @@ ssh-keygen -f root/.ssh/id_rsa # Set long random password
 
 Encrypt password and base64 it so it can be added to secureEnv:
 
+```
+ TODO:
+```
+
 ### Option 2 (shared id_rsa key with volume mounts)
 
 Add the key to new container that inherits from deploykey:

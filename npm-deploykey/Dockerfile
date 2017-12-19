@@ -1,4 +1,6 @@
-FROM gcr.io/cloud-builders/npm:current
+ARG NPMVERSION=current
+ARG PROJECT=cloud-builders
+FROM gcr.io/$PROJECT/npm:$NPMVERSION
 
 # Install ssh
 RUN apt-get update -y && apt-get install --no-install-recommends -y -q openssh-client && \

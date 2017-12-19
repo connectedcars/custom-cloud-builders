@@ -5,8 +5,10 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/npm-ssh:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/npm-ssh:current', './npm-ssh']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/npm-deploykey:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/npm-deploykey:current', './npm-deploykey']
-  
+    args: ['build', '--build-arg', 'PROJECT=connectedcars-staging', '--build-arg', 'NPMVERSION=latest', '-t', 'gcr.io/$PROJECT_ID/npm-deploykey:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/npm-deploykey:latest', './npm-deploykey']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '--build-arg', 'PROJECT=connectedcars-staging', '-t', 'gcr.io/$PROJECT_ID/npm-deploykey:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/npm-deploykey:current', './npm-deploykey']
+
   # Test the deploykey + npm-ssh
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/deploykey-testkey:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/deploykey-testkey:latest', './examples/deploykey-testkey']
